@@ -4,7 +4,7 @@
   "name": "GitHub Story Points",
   "version": "0.0.1",
 
-  "description": "Calculates the number of days it'll take to complete a GitHub milestone based on T-shirt sizing",
+  "description": "Calculates the number of days it'll take to complete a GitHub milestone based on T-shirt sizing. See https://github.com/mcomella/github-story-points for more details.",
 
   "content_scripts": [
     {
