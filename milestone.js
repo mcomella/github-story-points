@@ -1,6 +1,8 @@
 let TAG = 'github-story-points';
 function log(msg) { console.log(TAG + ': ' + msg); }
 
+let DIV_ID = TAG + '-container';
+
 let SIZE_S = 'size s';
 let SIZE_M = 'size m';
 let SIZE_L = 'size l';
@@ -26,6 +28,12 @@ function main() {
 function onPageReady() {
     let sizes = extractSizes();
     let newNode = createResultNode(sizes);
+    insertResultNode(newNode);
+}
+
+function insertResultNode(newNode) {
+    let oldNode = document.getElementById(DIV_ID);
+    if (oldNode) oldNode.remove();
 
     let issuesList = document.getElementsByClassName('issues-listing')[0];
     issuesList.parentNode.insertBefore(newNode, issuesList);
@@ -46,16 +54,29 @@ function extractSizes() {
 }
 
 function createResultNode(sizes) {
-    let container = document.createElement('div');
+    let outerContainer = el('div');
+    outerContainer.id = DIV_ID;
+    let labelCountsNode = el('p');
+    outerContainer.appendChild(labelCountsNode);
 
-    let rawCountNode = document.createElement('p');
-    let rawCountStr = SIZE_S + ': ' + sizes[SIZE_S] + ', ' +
-            SIZE_M + ': ' + sizes[SIZE_M] + ', ' +
-            SIZE_L + ': ' + sizes[SIZE_L];
-    rawCountNode.innerText = rawCountStr;
-    container.appendChild(rawCountNode);
+    let title = el('span');
+    title.innerText = 'Work remaining: ';
+    labelCountsNode.appendChild(title);
 
-    return container;
+    for (k of [SIZE_S, SIZE_M, SIZE_L]) {
+        let label = k.toUpperCase() + ': ';
+
+        let labelNode = el('span');
+        labelNode.style.fontWeight = 'bold';
+        labelNode.innerText = label;
+        labelCountsNode.appendChild(labelNode);
+
+        let countNode = el('span');
+        countNode.innerText = sizes[k] + ' '
+        labelCountsNode.appendChild(countNode);
+    }
+
+    return outerContainer;
 }
 
 function getOpenIssuesNode() {
@@ -78,5 +99,7 @@ function isPageReady() {
     let displayedIssuesCount = document.getElementsByClassName('js-issue-row').length;
     return getActualOpenCount() === displayedIssuesCount;
 }
+
+function el(tag) { return document.createElement(tag); }
 
 main();
