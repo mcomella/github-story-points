@@ -4,11 +4,7 @@
   "name": "GitHub Story Points",
   "version": "0.0.1",
 
-  "description": "",
-
-  "icons": {
-    "48": "icons/border-48.png"
-  },
+  "description": "Calculates the number of days it'll take to complete a GitHub milestone based on T-shirt sizing",
 
   "content_scripts": [
     {
