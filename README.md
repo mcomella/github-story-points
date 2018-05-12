@@ -11,9 +11,11 @@ To use this add-on, you'll first need to estimate, in days, how long it will tak
 These issues should then be compiled into a milestone (we represent each sprint with a milestone). Once your issues are estimated, labeled, and added to a milestone, open it ([here's an example][example]) and the values will be calculated automatically. Note that Closed issues are not counted.
 
 These number of days to completion that each size label represents is configurable. By default, these labels represent:
-- `size S` = < 1 day to fix
+- `size S` = <= 1 day to fix
 - `size M` = 2-3 days to fix
 - `size L` = 4-5 days to fix
+
+And are calculated using their maximum values.
 
 ## Development
 To develop, open the add-ons pane, select "Open a temporary add-on", and select the `manifest.json` file of this project.
