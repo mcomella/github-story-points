@@ -14,7 +14,18 @@ DEFAULT_DAYS_PER_SIZE[SIZE_S] = 1;
 DEFAULT_DAYS_PER_SIZE[SIZE_M] = 3;
 DEFAULT_DAYS_PER_SIZE[SIZE_L] = 5;
 
-function main() {
+// required by github-navigation.js
+function removeAddedNodes() {
+    // We don't add nodes, we only modify the existing one, so we're fine.
+}
+
+// required by github-navigation.js
+function onPageLoad() {
+    if (!isMilestonePage()) {
+        log('Not a milestone page: ignoring.');
+        return;
+    }
+
     if (!isOpenIssuesTabSelected()) {
         log('"Open" tab is not selected. Ignoring.');
         return;
@@ -30,6 +41,11 @@ function main() {
             }
         }, 1000);
     }
+}
+
+let MILESTONE_REGEX = '^/.+/.+/milestone/[0-9]+'
+function isMilestonePage() {
+    return window.location.pathname.match(MILESTONE_REGEX);
 }
 
 function onPageReady() {
@@ -159,4 +175,4 @@ function isPageReady() {
 
 function el(tag) { return document.createElement(tag); }
 
-main();
+onPageLoad();

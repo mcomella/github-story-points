@@ -12,8 +12,8 @@
 
   "content_scripts": [
     {
-      "matches": ["*://*.github.com/*/*/milestone/*"],
-      "js": ["src/milestone.js"]
+      "matches": ["*://*.github.com/*"],
+      "js": ["src/github-navigation.js", "src/milestone.js"]
     }
   ],
 
