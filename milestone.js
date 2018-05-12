@@ -6,6 +6,7 @@ let DIV_ID = TAG + '-container';
 let SIZE_S = 'size s';
 let SIZE_M = 'size m';
 let SIZE_L = 'size l';
+let ALL_SIZES = [SIZE_S, SIZE_M, SIZE_L];
 
 function main() {
     if (!isOpenIssuesTabSelected()) {
@@ -41,7 +42,7 @@ function insertResultNode(newNode) {
 
 function extractSizes() {
     var labelCounts = {};
-    for (k of [SIZE_S, SIZE_M, SIZE_L]) labelCounts[k] = 0;
+    for (k of ALL_SIZES) labelCounts[k] = 0;
 
     Array.from(document.getElementsByClassName('IssueLabel')).forEach(element => {
         let label = element.innerText.toLowerCase();
@@ -58,12 +59,13 @@ function createResultNode(sizes) {
     outerContainer.id = DIV_ID;
     let labelCountsNode = el('p');
     outerContainer.appendChild(labelCountsNode);
+    let calculatorNode = el('p');
+    outerContainer.appendChild(calculatorNode);
 
-    let title = el('span');
-    title.innerText = 'Work remaining: ';
-    labelCountsNode.appendChild(title);
-
-    for (k of [SIZE_S, SIZE_M, SIZE_L]) {
+    let labelTitle = el('span');
+    labelTitle.innerText = 'Work remaining: ';
+    labelCountsNode.appendChild(labelTitle);
+    for (k of ALL_SIZES) {
         let label = k.toUpperCase() + ': ';
 
         let labelNode = el('span');
@@ -75,6 +77,28 @@ function createResultNode(sizes) {
         countNode.innerText = sizes[k] + ' '
         labelCountsNode.appendChild(countNode);
     }
+
+    let calcTitle = el('span');
+    calcTitle.innerText = 'Calculator: days';
+    calculatorNode.appendChild(calcTitle);
+    for (k of ALL_SIZES) {
+        let label = '/' + k.trim().split(' ')[1].toUpperCase() + ' ';
+
+        let labelNode = el('span');
+        labelNode.innerText = label;
+        calculatorNode.appendChild(labelNode);
+
+        let inputNode = el('input');
+        inputNode.style = 'max-width: 30px;';
+        calculatorNode.appendChild(inputNode);
+
+        let spacer = el('span');
+        spacer.innerText = ' ';
+        calculatorNode.appendChild(spacer);
+    }
+    let calcResultNode = el('span');
+    calcResultNode.innerText = ' = x days';
+    calculatorNode.appendChild(calcResultNode);
 
     return outerContainer;
 }
