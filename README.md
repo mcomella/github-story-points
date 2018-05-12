@@ -1,5 +1,5 @@
 # Github Story Points
-[Soon available on addons.mozilla.org][amo]
+[Available on addons.mozilla.org][amo]
 
 This add-on helps solve the problem of, "How many days will it take to complete this milestone?"
 
@@ -30,5 +30,5 @@ which will write a file to `out/bundle.xpi`.
 ## License
 The license included with this repository is based on the X11 license, which is similar to the MIT license.
 
-[amo]: https://github.com/mcomella/github-story-points
+[amo]: https://addons.mozilla.org/en-US/firefox/addon/github-story-points/
 [example]: https://github.com/mcomella/Spoon-Knife/milestone/1
