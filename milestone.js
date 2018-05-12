@@ -2,11 +2,17 @@ let TAG = 'github-story-points';
 function log(msg) { console.log(TAG + ': ' + msg); }
 
 let DIV_ID = TAG + '-container';
+let RESULT_ID = TAG + '-results';
 
 let SIZE_S = 'size s';
 let SIZE_M = 'size m';
 let SIZE_L = 'size l';
 let ALL_SIZES = [SIZE_S, SIZE_M, SIZE_L];
+
+let DEFAULT_DAYS_PER_SIZE = {};
+DEFAULT_DAYS_PER_SIZE[SIZE_S] = 1;
+DEFAULT_DAYS_PER_SIZE[SIZE_M] = 3;
+DEFAULT_DAYS_PER_SIZE[SIZE_L] = 5;
 
 function main() {
     if (!isOpenIssuesTabSelected()) {
@@ -30,6 +36,7 @@ function onPageReady() {
     let sizes = extractSizes();
     let newNode = createResultNode(sizes);
     insertResultNode(newNode);
+    calculateAndUpdateResults(sizes);
 }
 
 function insertResultNode(newNode) {
@@ -60,6 +67,7 @@ function createResultNode(sizes) {
     let labelCountsNode = el('p');
     outerContainer.appendChild(labelCountsNode);
     let calculatorNode = el('p');
+    calculatorNode.style = 'padding-left: 20px;';
     outerContainer.appendChild(calculatorNode);
 
     let labelTitle = el('span');
@@ -89,6 +97,7 @@ function createResultNode(sizes) {
         calculatorNode.appendChild(labelNode);
 
         let inputNode = el('input');
+        inputNode.id = getInputElementID(k);
         inputNode.style = 'max-width: 30px;';
         calculatorNode.appendChild(inputNode);
 
@@ -97,11 +106,35 @@ function createResultNode(sizes) {
         calculatorNode.appendChild(spacer);
     }
     let calcResultNode = el('span');
-    calcResultNode.innerText = ' = x days';
+    calcResultNode.id = RESULT_ID; // text added later.
     calculatorNode.appendChild(calcResultNode);
+    let calculateButton = el('button');
+    calculateButton.innerText = 'Recalculate';
+    calculateButton.onclick = () => { calculateAndUpdateResults(sizes) };
+    calculatorNode.appendChild(calculateButton);
 
     return outerContainer;
 }
+
+function calculateAndUpdateResults(sizes) {
+    let resultNode = document.getElementById(RESULT_ID);
+
+    var numDays = 0;
+    for (k of ALL_SIZES) {
+        let labelInputNode = document.getElementById(getInputElementID(k));
+        var daysPerLabel = parseInt(labelInputNode.value);
+        if (isNaN(daysPerLabel)) {
+            let defaultDays = DEFAULT_DAYS_PER_SIZE[k];
+            daysPerLabel = defaultDays;
+            labelInputNode.value = defaultDays;
+        }
+        numDays += sizes[k] * daysPerLabel;
+    }
+
+    resultNode.innerText = ' = ' + numDays + ' days ';
+}
+
+function getInputElementID(label) { return TAG + '-' + k.replace(' ', '-'); }
 
 function getOpenIssuesNode() {
     let elements = Array.from(document.getElementsByClassName('table-list-header-toggle'));
