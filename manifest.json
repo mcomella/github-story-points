@@ -13,7 +13,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.github.com/*"],
-      "js": ["src/github-navigation.js", "src/milestone.js"]
+      "js": ["src/github-navigation.js", "src/main.js"]
     }
   ],
 
