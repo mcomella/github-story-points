@@ -1,0 +1,25 @@
+{
+
+  "manifest_version": 2,
+  "name": "GitHub Story Points",
+  "version": "0.0.1",
+
+  "description": "",
+
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.github.com/*/*/milestone/*"],
+      "js": ["milestone.js"]
+    }
+  ],
+
+  "permissions": [
+    "*://api.github.com/*",
+    "webRequest"
+  ]
+
+}
