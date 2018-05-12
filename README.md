@@ -15,6 +15,16 @@ These number of days to completion that each size label represents is configurab
 - `size M` = 2-3 days to fix
 - `size L` = 4-5 days to fix
 
+## Development
+To develop, open the add-ons pane, select "Open a temporary add-on", and select the `manifest.json` file of this project.
+
+To build for release, run:
+```sh
+./build.sh
+```
+
+which will write a file to `out/bundle.xpi`.
+
 ## License
 The license included with this repository is based on the X11 license, which is similar to the MIT license.
 
