@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "GitHub Story Points",
-  "version": "0.0.1",
+  "version": "0.1.0",
 
   "description": "Calculates the number of days it'll take to complete a GitHub milestone based on T-shirt sizing. See https://github.com/mcomella/github-story-points for more details.",
 
