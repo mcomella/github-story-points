@@ -11,11 +11,6 @@
       "matches": ["*://*.github.com/*"],
       "js": ["src/github-navigation.js", "src/main.js"]
     }
-  ],
-
-  "permissions": [
-    "*://api.github.com/*",
-    "webRequest"
   ]
 
 }
