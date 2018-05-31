@@ -9,6 +9,10 @@ let SIZE_M = 'size m';
 let SIZE_L = 'size l';
 let ALL_SIZES = [SIZE_S, SIZE_M, SIZE_L];
 
+let UNLABELED = 'unlabeled';
+let MULTIPLE_LABELS = 'multiple labels';
+let ALL_LABELS_DISPLAYED_TO_USER = ALL_SIZES.concat(UNLABELED, MULTIPLE_LABELS);
+
 let DEFAULT_DAYS_PER_SIZE = {};
 DEFAULT_DAYS_PER_SIZE[SIZE_S] = 1;
 DEFAULT_DAYS_PER_SIZE[SIZE_M] = 3;
@@ -64,17 +68,33 @@ function insertResultNode(newNode) {
 }
 
 function extractLabelsDisplayedToUser() {
-    var labelCounts = {};
-    for (k of ALL_SIZES) labelCounts[k] = 0;
+    let totalLabelCounts = {};
+    for (k of ALL_LABELS_DISPLAYED_TO_USER) totalLabelCounts[k] = 0;
 
-    Array.from(document.getElementsByClassName('IssueLabel')).forEach(element => {
-        let label = element.innerText.toLowerCase();
-        if (labelCounts.hasOwnProperty(label)) {
-            labelCounts[label] += 1;
+    Array.from(document.getElementsByClassName('d-table')).forEach(issueRow => {
+        let issueLabelCounts = {};
+        for (k of ALL_SIZES) issueLabelCounts[k] = 0;
+
+        Array.from(issueRow.getElementsByClassName('IssueLabel')).forEach(rawIssueLabel => {
+            let label = rawIssueLabel.innerText.toLowerCase();
+            if (issueLabelCounts.hasOwnProperty(label)) {
+                issueLabelCounts[label] += 1;
+            }
+        });
+
+        let issueLabelSizeSum = Object.values(issueLabelCounts).reduce((acc, cur) => acc + cur);
+        if (issueLabelSizeSum === 0) {
+            totalLabelCounts['unlabeled'] += 1;
+        } else if (issueLabelSizeSum > 1) {
+            totalLabelCounts['multiple labels'] += 1;
+        } else {
+            for (k in issueLabelCounts) {
+                totalLabelCounts[k] += issueLabelCounts[k];
+            }
         }
     });
 
-    return labelCounts;
+    return totalLabelCounts;
 }
 
 function createResultNode(labelsDisplayedToUser) {
@@ -89,8 +109,14 @@ function createResultNode(labelsDisplayedToUser) {
     let labelTitle = el('span');
     labelTitle.innerText = 'Work remaining: ';
     labelCountsNode.appendChild(labelTitle);
-    for (k of ALL_SIZES) {
-        let label = k.toUpperCase() + ': ';
+    for (k of ALL_LABELS_DISPLAYED_TO_USER) {
+        var label = k.toUpperCase() + ': ';
+        if (k === UNLABELED) {
+            label = '|| ' + label; // Separator.
+        }
+        if (k === UNLABELED || k === MULTIPLE_LABELS) {
+            label = label.toLowerCase(); // easier to see sizes.
+        }
 
         let labelNode = el('span');
         labelNode.style.fontWeight = 'bold';
