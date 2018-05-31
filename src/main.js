@@ -49,10 +49,10 @@ function isMilestonePage() {
 }
 
 function onPageReady() {
-    let sizes = extractSizes();
-    let newNode = createResultNode(sizes);
+    let labelsDisplayedToUser = extractLabelsDisplayedToUser();
+    let newNode = createResultNode(labelsDisplayedToUser);
     insertResultNode(newNode);
-    calculateAndUpdateResults(sizes);
+    calculateAndUpdateResults(labelsDisplayedToUser);
 }
 
 function insertResultNode(newNode) {
@@ -63,7 +63,7 @@ function insertResultNode(newNode) {
     issuesList.parentNode.insertBefore(newNode, issuesList);
 }
 
-function extractSizes() {
+function extractLabelsDisplayedToUser() {
     var labelCounts = {};
     for (k of ALL_SIZES) labelCounts[k] = 0;
 
@@ -77,7 +77,7 @@ function extractSizes() {
     return labelCounts;
 }
 
-function createResultNode(sizes) {
+function createResultNode(labelsDisplayedToUser) {
     let outerContainer = el('div');
     outerContainer.id = DIV_ID;
     let labelCountsNode = el('p');
@@ -98,7 +98,7 @@ function createResultNode(sizes) {
         labelCountsNode.appendChild(labelNode);
 
         let countNode = el('span');
-        countNode.innerText = sizes[k] + ' '
+        countNode.innerText = labelsDisplayedToUser[k] + ' '
         labelCountsNode.appendChild(countNode);
     }
 
@@ -126,7 +126,7 @@ function createResultNode(sizes) {
     calculatorNode.appendChild(calcResultNode);
     let calculateButton = el('button');
     calculateButton.innerText = 'Recalculate';
-    calculateButton.onclick = () => { calculateAndUpdateResults(sizes) };
+    calculateButton.onclick = () => { calculateAndUpdateResults(labelsDisplayedToUser) };
     calculatorNode.appendChild(calculateButton);
 
     return outerContainer;
