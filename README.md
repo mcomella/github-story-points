@@ -1,3 +1,6 @@
+INACTIVE: this add-on has been integrated as a feature into the APT
+GitHub Improvements add-on available at https://github.com/mcomella/apt_github_improvements
+
 # Github Story Points
 [Available on addons.mozilla.org][amo]
 
